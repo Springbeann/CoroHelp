@@ -12,7 +12,11 @@ URLS = [
     "https://www.foodbeverageinsider.com/market-trends-analysis/balancing-nutrition-and-appeal-childrens-food-and-beverage",
     "https://wellmune.com/2019/05/29/top-insights-for-childrens-beverage-market/" 
     "https://www.austriajuice.com/news-blog/flavour-trends" 
-    "https://intracen.org/news-and-events/news/what-are-the-worlds-favourite-fruits"
+    "https://intracen.org/news-and-events/news/what-are-the-worlds-favourite-fruits"    
+    "https://menuprice.co/blog/top-11-worlds-favorite-fruit-juices" 
+    "https://eng.alimentossas.com/blog/fruit-flavors-which-are-the-most-popular-in-food-production" 
+    "https://eng.alimentossas.com/blog/beverages/soft-drinks"   
+    "https://foodinsight.org/spotlight-generation-z/"
 ]
 
 def fetch_content(url):
