@@ -23,13 +23,14 @@ URLS = [
 def fetch_content(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
-    return soup.get_text()
+    return soup.get_text()[:10000]
 
-def get_gpt_summary(content, api_key):
+def get_gpt_summary(user_question, webpage_content, api_key):
     openai.api_key = api_key
     messages = [
         {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": f"Please summarize the following content:\n\n{content}"}
+        {"role": "user", "content": f"Based on the following webpage content, answer the question: '{user_question}'\n\n{webpage_content}..."}  # Using only the first 1000 characters for brevity
+#]
     ]
 
     response = openai.ChatCompletion.create(
@@ -47,12 +48,12 @@ st.title("CoroHelp")
 st.subheader("Your best assistant :orange[ever] :tangerine:")
 
 # Input for OpenAI API Key
-api_key = st.text_input("Enter your OpenAI API key:", type='password')
+api_key = st.text_input("Enter your OpenAI API key:", type='password')  
 
 if api_key:
     # Input for user question
     user_question = st.text_input("Enter your question:")
-    if st.button("Get Answer"):
+    if st.button("Search our database"):
         if not user_question:
             st.warning("Please enter a question.")
         else:
