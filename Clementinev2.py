@@ -33,14 +33,20 @@ st.subheader("Your favorite marketing :orange[assistant] :tangerine:")
 openai_api_key = st.text_input("Enter your OpenAI API key:", type='password')
 
 # Sidebar for Google Search
+# Sidebar for Google Search
 st.sidebar.header("Google Search")
 google_api_key = st.sidebar.text_input("Enter your Google API key:", type='password')
 cse_id = "03d55e1bef04b46ef"  # Replace with your actual CSE ID
 google_query = st.sidebar.text_input("Enter your Google search query:")
 if st.sidebar.button("Search Google"):
     search_results = google_search(google_query, google_api_key, cse_id)
-    search_content = "\n".join([result['snippet'] for result in search_results])
-    st.sidebar.text_area("Snippet:", search_content)
+    search_content = "\n".join([result['snippet'] for result in search_results if 'snippet' in result])  # Ensure 'snippet' key exists
+
+    # Display search results in the sidebar
+    st.sidebar.text_area("Snippet (Sidebar):", search_content)
+
+    # Display search results in the main content area
+    st.text_area("Snippet (Main):", search_content)
     
     # Summarize the Google search results using GPT-4
     summary_question = "Provide a summary of the following search results:"
