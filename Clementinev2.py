@@ -29,7 +29,7 @@ def get_gpt_response(user_question, api_key, past_messages, presets=None):
 st.title(":orange[Clementine]")
 st.subheader("Your favorite marketing :orange[assistant] :tangerine:")
 
-# Input for OpenAI API Key
+
 openai_api_key = st.text_input("Enter your OpenAI API key:", type='password')
 
 st.sidebar.header("Google Search")
@@ -38,17 +38,16 @@ cse_id = "03d55e1bef04b46ef"  # Replace with your actual CSE ID
 google_query = st.sidebar.text_input("Enter your Google search query:")
 if st.sidebar.button("Search Google"):
     search_results = google_search(google_query, google_api_key, cse_id)
-    search_content = "\n".join([str(result['snippet']) for result in search_results])
-    st.sidebar.text_area("Snippet:", search_content)
     
-    # Display the search content in the main area as well
-    st.write("Google Search Results:")
-    st.write(search_content)
+
+    filtered_snippets = [str(result['snippet']) for result in search_results if len(result['snippet']) > 60]
+    search_content = "\n".join(filtered_snippets)
     
-    # Summarize the Google search results using GPT-4
-    summary_question = "Provide a summary of the following search results:"
+    st.sidebar.text_area("Filtered Snippets:", search_content)
+    
+    summary_question = "Provide a summary of the following search results:\n" + search_content
     try:
-        summary, _ = get_gpt_response(summary_question, openai_api_key, [{"role": "system", "content": "You are a helpful assistant."}], search_content)
+        summary, _ = get_gpt_response(summary_question, openai_api_key, [{"role": "system", "content": "You are a helpful assistant."}])
         st.write("Summary of Google Search Results:")
         st.write(summary)
     except Exception as e:
